@@ -8,8 +8,17 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-//===========================================
+
+
+//===========  Routes =====================
+
+//=== Auth Router ====
 app.use('/api/auth', authRoutes)
+
+
+
+
+
 
 //===========================================
 app.listen(PORT, () => {
