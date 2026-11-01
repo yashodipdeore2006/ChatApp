@@ -21,4 +21,4 @@ router.get('/logout', () => {
 });
 
 //====================================================
-export default route;
+export default router;
