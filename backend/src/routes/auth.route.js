@@ -1,29 +1,28 @@
 import express from 'express';
 
+//===local modules ===
+import { Login, logout, resetPassword, signup } from '../controllers/auth.controller.js';
 
 
+
+
+
+//========= Middlewares ==================
 const router = express.Router();
-
-
 
 //========== Auth Routes ======================
 
 //=== Signup ===
-router.get('/signup', (req, res) => {
-  res.send('Signup endpoint');
-});
+router.get('/signup', signup);
 
 //=== Login ===
-router.get('/login', (req, res) => {
-  res.send('Login endpoint');
-});
+router.get('/login', Login);
 
 //=== Logout ===
-router.get('/logout', (req, res) => {
-  res.send('Logout endpoint');
-});
+router.get('/logout', logout);
 
-//=== 
+//=== resetPassword ===
+router.patch('/resetpassword', resetPassword);
 
 //===========================================
 export default router;

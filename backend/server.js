@@ -12,7 +12,7 @@ import { ConnectDB } from "./src/lib/db.js";
 dotenv.config();
 const __dirname = path.resolve();
 const app = express();
-
+app.use(express.json());//res.body
 
 //============= Routes =======================
 
