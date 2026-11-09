@@ -13,7 +13,7 @@ const router = express.Router();
 //========== Auth Routes ======================
 
 //=== Signup ===
-router.get('/signup', signup);
+router.post('/signup', signup);
 
 //=== Login ===
 router.get('/login', Login);

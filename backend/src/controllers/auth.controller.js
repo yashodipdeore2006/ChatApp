@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs'
 
 //=== local models ===
 import User from "../models/User.model.js";
+import { generateToken } from '../lib/utils.js';
+
 
 
 //=== Signup ===
