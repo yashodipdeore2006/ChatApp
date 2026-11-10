@@ -1,4 +1,3 @@
-
 import { resendClient } from "../lib/resend.js";
 import { generateWelcomeEmail } from "./emailTemplates.js";
 import { sender } from "../lib/resend.js";
