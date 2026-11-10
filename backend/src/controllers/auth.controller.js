@@ -7,6 +7,7 @@ import { generateToken } from '../lib/utils.js';
 import { sendWelcomeEmail } from '../emails/emailHandlers.js';
 
 
+
 //=== Signup ===
 export async function signup(req, res) {
   try {
@@ -102,26 +103,71 @@ export async function signup(req, res) {
 //=== Login ===
 export async function Login(req, res) {
   try {
+    const { email, password } = req.body;
+
+    //Find user via email
+    const user = User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        status: 'Failed',
+        message: "Invalid credentials",
+
+      });
+    };
+
+    //Check password correct or not
+    const isPasswordCorrect = await bcrypt.compare(password, user.password)
+
+    //Error if password is incorrect
+    if (!isPasswordCorrect) {
+      return res.status(400).json({
+        status: 'Failed',
+        message: "Invalid credentials",
+      });
+    };
+
+    generateToken(user._id, res);
+
+    res.status(200).json({
+      status: 'successful',
+      message: 'Login successful',
+      _id: user_id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePicture: user.profilePicture
+    });
 
   } catch (error) {
-
+    res.status(500).json({
+      status: "Failed",
+      message: 'Internal server error',
+      Error: error.message
+    })
   };
 };
 
 
 //=== logout ===
 export function logout(req, res) {
-  try {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: ENV.NODE_ENV === "production",
+    path: "/",
+  });
 
-  } catch (error) {
-
-  }
+  return res.status(200).json({
+    success: true,
+    message: "Logged out successfully",
+  });
 }
 
+
+//=== Reset Password ===
 export async function resetPassword(req, res) {
   try {
 
   } catch (error) {
 
   }
-}
+};

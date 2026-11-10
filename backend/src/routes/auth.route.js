@@ -16,10 +16,10 @@ const router = express.Router();
 router.post('/signup', signup);
 
 //=== Login ===
-router.get('/login', Login);
+router.post('/login', Login);
 
 //=== Logout ===
-router.get('/logout', logout);
+router.post('/logout', logout);
 
 //=== resetPassword ===
 router.patch('/resetpassword', resetPassword);
