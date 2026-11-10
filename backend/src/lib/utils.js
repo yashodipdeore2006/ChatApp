@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
-
+import { ENV } from './env.js';
 
 export function generateToken(userId, res) {
   const token = jwt.sign(
     {
       userId
     },
-    process.env.JWT_SECRET,
+    ENV.JWT_SECRET,
     {
       expiresIn: '7d'
     }
@@ -19,7 +19,7 @@ export function generateToken(userId, res) {
       maxAge: 7 * 24 * 60 * 60 * 1000, //7days
       httpOnly: true, //Prevents xss attacks: cross-site scripting
       sameSite: 'strict', // prevents CSRF attacks
-      secure: process.env.NODE_ENV = 'development' ? false : true
+      secure: ENV.NODE_ENV = 'development' ? false : true
     }
   );
 

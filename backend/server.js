@@ -1,5 +1,5 @@
 import express from "express";
-import dotenv from "dotenv"
+import { ENV } from "./src/lib/env.js";
 import path from "path";
 
 //=== Local modules ===
@@ -9,7 +9,7 @@ import { ConnectDB } from "./src/lib/db.js";
 
 
 //============= Middlewares =================
-dotenv.config();
+
 const __dirname = path.resolve();
 const app = express();
 app.use(express.json());//res.body
@@ -26,7 +26,7 @@ app.use('/api/messages', messagesRoutes)
 
 
 //Make ready for deployment
-if (process.env.NODE_ENV == 'production') {
+if (ENV.NODE_ENV == 'production') {
   app.use(express.static(path.join(__dirname, "../frontend/dist")))
 
   app.get('*', (req, res) => {
@@ -35,7 +35,7 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 //=============================================
-const PORT = process.env.PORT || 3000;
+const PORT = ENV.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log('🟢 server is running at : http://localhost:' + PORT);
