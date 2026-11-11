@@ -3,7 +3,7 @@ import express from 'express';
 //===local modules ===
 import { Login, logout, resetPassword, signup, updateProfile } from '../controllers/auth.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
-
+import { arcJetProtection } from '../middleware/arcjet.middleware.js';
 
 
 
@@ -17,13 +17,13 @@ const router = express.Router();
 router.post('/signup', signup);
 
 //=== Login ===
-router.post('/login', Login);
+router.post('/login', arcJetProtection, Login);
 
 //=== Logout ===
 router.post('/logout', logout);
 
 //=== resetPassword ===
-router.patch('/resetpassword', resetPassword);
+router.patch('/resetpassword', arcJetProtection, resetPassword);
 
 
 //=== Update Profile ===
