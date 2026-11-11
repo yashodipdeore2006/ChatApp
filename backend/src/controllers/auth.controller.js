@@ -106,7 +106,7 @@ export async function Login(req, res) {
     const { email, password } = req.body;
 
     //Find user via email
-    const user = User.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
         status: 'Failed',
@@ -131,7 +131,7 @@ export async function Login(req, res) {
     res.status(200).json({
       status: 'successful',
       message: 'Login successful',
-      _id: user_id,
+      _id: user._id,
       fullName: user.fullName,
       email: user.email,
       profilePicture: user.profilePicture
