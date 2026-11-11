@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
-import ENV from '../lib/env.js'
+import { ENV } from '../lib/env.js'
 import User from '../models//User.model.js';
-import { use } from 'react';
 
 
 export async function protect(req, res, next) {
