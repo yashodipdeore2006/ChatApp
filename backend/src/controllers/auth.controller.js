@@ -5,7 +5,7 @@ import { ENV } from '../lib/env.js';
 import User from "../models/User.model.js";
 import { generateToken } from '../lib/utils.js';
 import { sendWelcomeEmail } from '../emails/emailHandlers.js';
-
+import cloudinary from '../lib/cloudinary.js'
 
 
 //=== Signup ===
@@ -170,4 +170,44 @@ export async function resetPassword(req, res) {
   } catch (error) {
 
   }
+};
+
+
+export async function updateProfile(req, res) {
+  try {
+    const { profilePic } = req.body;
+
+    if (!profilePic) return res.status(400).jso({
+      status: 'Failed',
+      message: 'Profile pic is required'
+    });
+
+    const userId = req.user._id;
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        profilePicture: uploadResponse.secure_url
+      },
+      {
+        new: true
+      }
+    );
+
+
+    res.status(200).json({
+      status: 'Failed',
+      message: 'You profile updated successfully',
+      user: updatedUser
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      status: 'Failed',
+      message: 'Internal server error',
+      Error: error.message
+    });
+  };
 };
