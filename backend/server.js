@@ -1,6 +1,7 @@
 import express from "express";
 import { ENV } from "./src/lib/env.js";
 import path from "path";
+import cookieParser from "cookie-parser";
 
 //=== Local modules ===
 import authRoutes from "./src/routes/auth.route.js";
@@ -13,6 +14,7 @@ import { ConnectDB } from "./src/lib/db.js";
 const __dirname = path.resolve();
 const app = express();
 app.use(express.json());//res.body
+app.use(cookieParser());
 
 //============= Routes =======================
 
