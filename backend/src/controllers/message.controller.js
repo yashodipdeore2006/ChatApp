@@ -85,3 +85,53 @@ export async function sendMessage(req, res) {
     res.status(500).json({ error: 'Internal server error' });
   };
 };
+
+
+
+export async function getChatPartners(req, res) {
+  try {
+    const loggedInUserId = req.user._id;
+
+    //find all the messages where the logged-in user is either sender or receiver
+    const messages = await Message.find(
+      {
+        $or: [
+          { senderId: loggedInUserId },
+          { receiverId: loggedInUserId }
+        ]
+      }
+    );
+
+
+    //  find all the users id's who has send you a message or you have messaged them.
+
+    //making it set first then array because logged-in users id will repeat multiple times as sended or receiver in messages
+    const chatPartnerIds = [...new Set(messages.map((msg) => {
+      return (
+        msg.senderId.toString() === loggedInUserId ? msg.receiverId.toString() : msg.senderId.toString()
+      )
+    }))]
+
+
+    //  find all the users who had a chat with you
+    const chatPartners = await User.find(
+      {
+        _id: {
+          $in: chatPartnerIds
+        }
+      }
+    ).select('-password');
+
+    res.status(200).json({
+      status: 'Successful',
+      message: 'Chat Partners fond successful',
+      chatPartners
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      status: 'Failed',
+      message: 'Internal server error'
+    });
+  };
+};
