@@ -2,7 +2,7 @@ import aj from '../lib/arcjet.js';
 import { isSpoofedBot } from '@arcjet/inspect';
 
 
-export const arcJetProtection = async (res, res, next) => {
+export const arcJetProtection = async (req, res, next) => {
   try {
     const decision = await aj.protect(req);
 
